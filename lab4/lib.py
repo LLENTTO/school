@@ -1,12 +1,11 @@
-# 1
-"""
-Core formula:   1 degre * pi / 180 
-"""
+# 4:     Write a Python program to calculate two date difference in seconds.
 
-import math
+from datetime import datetime, timedelta
 
-def converter(degree):
-    radian  = degree * math.pi / 180
-    return radian
 
-print(converter(15))
+d_y = datetime.now() - timedelta(seconds=50)
+d_t = datetime.now()
+
+diff = int(d_t.strftime("%S")) - int(d_y.strftime("%S"))
+
+print (diff)
