@@ -7,9 +7,9 @@ screen = pg.display.set_mode((1280, 720))
 pg.display.set_caption("Mickey Clock")
 running = True
 
-clock_img = pg.image.load("./assets/clock.png")
-minute_hand_img = pg.image.load("assets/rightarm.png")
-second_hand_img = pg.image.load("assets/leftarm.png")
+clock_img = pg.image.load("/home/llinn/Desktop/VSC/test/school/lab7/assets/clock.png")
+minute_hand_img = pg.image.load("/home/llinn/Desktop/VSC/test/school/lab7/assets/rightarm.png")
+second_hand_img = pg.image.load("/home/llinn/Desktop/VSC/test/school/lab7/assets/leftarm.png")
 
 clock_center = (640, 360)  
 
@@ -32,7 +32,7 @@ while running:
 
     screen.fill("white")
 
-    screen.blit(clock_img, (440, 160))  
+    screen.blit(clock_img, (-40,-180))  
 
     rotated_minute_hand, minute_hand_rect = rotate_image(minute_hand_img, minute_angle, clock_center)
     screen.blit(rotated_minute_hand, minute_hand_rect)

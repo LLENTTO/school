@@ -23,36 +23,14 @@ RED = (255, 0, 0)
 
 font = pygame.font.Font(None, 36)
 
-MUSIC_FOLDER = "./sound"
-music_files = [f for f in os.listdir(MUSIC_FOLDER) if f.endswith(('.mp3', '.wav'))]
+MUSIC_FOLDER = "/home/llinn/Desktop/VSC/test/school/lab7/sound"
+
+music_files = [f for f in os.listdir(MUSIC_FOLDER.replace("\\", os.sep).replace("/", os.sep)) if f.endswith(('.mp3', '.wav'))]
 
 if not music_files:
     print("No music files found in the folder!")
     pygame.quit()
     exit()
-
-class Button:
-    def __init__(self, x, y, width, height, text, color, hover_color, action=None):
-        self.rect = pygame.Rect(x, y, width, height)
-        self.text = font.render(text, True, WHITE)
-        self.text_rect = self.text.get_rect(center=self.rect.center)
-        self.color = color
-        self.hover_color = hover_color
-        self.action = action
-        self.is_hovered = False
-
-    def draw(self, screen):
-        color = self.hover_color if self.is_hovered else self.color
-        pygame.draw.rect(screen, color, self.rect)
-        screen.blit(self.text, self.text_rect)
-
-    def check_hover(self, mouse_pos):
-        self.is_hovered = self.rect.collidepoint(mouse_pos)
-
-    def handle_event(self, event):
-        if event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos):
-            if self.action:
-                self.action()
 
 def play_pause():
     global is_playing
@@ -84,25 +62,21 @@ current_song_index = 0
 is_playing = False
 play_song(current_song_index)
 
-buttons = [
-    Button(300, 400, 100, 50, "Play/Pause", GRAY, GREEN, play_pause),
-    Button(200, 400, 80, 50, "Prev", GRAY, RED, previous_song),
-    Button(420, 400, 80, 50, "Next", GRAY, RED, next_song)
-]
-
 clock = pygame.time.Clock()
 running = True
 
 while running:
-    mouse_pos = pygame.mouse.get_pos()
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-        for button in buttons:
-            button.handle_event(event)
 
-    for button in buttons:
-        button.check_hover(mouse_pos)
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                play_pause()
+            elif event.key == pygame.K_RIGHT:
+                next_song()
+            elif event.key == pygame.K_LEFT:
+                previous_song()
 
     screen.fill(BLACK)
 
@@ -110,9 +84,6 @@ while running:
     text = font.render(f"Playing: {current_song}", True, WHITE)
     text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
     screen.blit(text, text_rect)
-
-    for button in buttons:
-        button.draw(screen)
 
     pygame.display.flip()
     clock.tick(60)
