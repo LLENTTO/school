@@ -1,6 +1,5 @@
 import pygame as pg
 import time
-import math
 
 pg.init()
 
@@ -8,7 +7,7 @@ screen = pg.display.set_mode((1280, 720))
 pg.display.set_caption("Mickey Clock")
 running = True
 
-clock_img = pg.image.load("/assets/clock.png")
+clock_img = pg.image.load("./assets/clock.png")
 minute_hand_img = pg.image.load("assets/rightarm.png")
 second_hand_img = pg.image.load("assets/leftarm.png")
 

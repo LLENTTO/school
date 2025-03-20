@@ -23,7 +23,7 @@ RED = (255, 0, 0)
 
 font = pygame.font.Font(None, 36)
 
-MUSIC_FOLDER = "sound"
+MUSIC_FOLDER = "./sound"
 music_files = [f for f in os.listdir(MUSIC_FOLDER) if f.endswith(('.mp3', '.wav'))]
 
 if not music_files:
