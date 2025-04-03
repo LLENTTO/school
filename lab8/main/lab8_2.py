@@ -43,6 +43,11 @@ def generate_food():
         if pos not in snake:
             return pos
 
+
+if score % 4 == 0 and score != 0:  
+    level += 1
+    speed += 2
+
 running = True
 while running:
     for event in pygame.event.get():
@@ -79,6 +84,10 @@ while running:
         running = False
 
     snake.insert(0, new_head)
+
+
+        
+
 
     if check_collision(new_head, food_pos):
         score += 1

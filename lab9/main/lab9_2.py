@@ -22,12 +22,28 @@ font = pygame.font.SysFont("arial", 25)
 
 snake = [(100, 100), (90, 100), (80, 100)]
 snake_dir = "RIGHT"
-food_pos = (random.randint(0, (WIDTH // CELL_SIZE) - 1) * CELL_SIZE,
-            random.randint(0, (HEIGHT // CELL_SIZE) - 1) * CELL_SIZE)
-food_spawn = True
+food_pos = None
+food_spawn = False
+food_timer = 0
 score = 0
 level = 1
 speed = 10
+
+class Food:
+    def __init__(self):
+        self.x = random.randint(0, (WIDTH // CELL_SIZE) - 1) * CELL_SIZE
+        self.y = random.randint(0, (HEIGHT // CELL_SIZE) - 1) * CELL_SIZE
+        self.weight = random.randint(1, 3)
+        self.spawn_time = time.time()
+
+    def draw(self):
+        pygame.draw.rect(screen, RED, pygame.Rect(self.x, self.y, CELL_SIZE, CELL_SIZE))
+        weight_text = font.render(str(self.weight), True, WHITE)
+        screen.blit(weight_text, (self.x + CELL_SIZE // 4, self.y + CELL_SIZE // 4))
+
+    def is_expired(self):
+        return time.time() - self.spawn_time > 5  # Food disappears after 5 seconds
+
 
 def show_score_and_level():
     score_text = font.render(f"Score: {score}  Level: {level}", True, BLUE)
@@ -36,14 +52,9 @@ def show_score_and_level():
 def check_collision(pos1, pos2):
     return pos1[0] == pos2[0] and pos1[1] == pos2[1]
 
-def generate_food():
-    while True:
-        pos = (random.randint(0, (WIDTH // CELL_SIZE) - 1) * CELL_SIZE,
-               random.randint(0, (HEIGHT // CELL_SIZE) - 1) * CELL_SIZE)
-        if pos not in snake:
-            return pos
-
 running = True
+food = None
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -80,22 +91,23 @@ while running:
 
     snake.insert(0, new_head)
 
-    if check_collision(new_head, food_pos):
-        score += 1
-        food_spawn = False
-        if score % 4 == 0:  
+    if food and check_collision(new_head, (food.x, food.y)):
+        score += food.weight
+        food = None
+        if score % 4 == 0:
             level += 1
             speed += 2
     else:
-        snake.pop()  
-    if not food_spawn:
-        food_pos = generate_food()
-        food_spawn = True
+        snake.pop()
+
+    if not food or (food and food.is_expired()):
+        food = Food()
 
     screen.fill(WHITE)
     for segment in snake:
         pygame.draw.rect(screen, GREEN, pygame.Rect(segment[0], segment[1], CELL_SIZE, CELL_SIZE))
-    pygame.draw.rect(screen, RED, pygame.Rect(food_pos[0], food_pos[1], CELL_SIZE, CELL_SIZE))
+    if food:
+        food.draw()
     show_score_and_level()
 
     pygame.display.flip()

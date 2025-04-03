@@ -69,6 +69,35 @@ class Player(pygame.sprite.Sprite):
 P1 = Player()
 E1 = Enemy()
  
+class Coin(pygame.sprite.Sprite):
+    def __init__(self):
+        super().__init__()
+        self.image = pygame.image.load("coin.png")
+        self.rect = self.image.get_rect()
+        self.rect.center = (random.randint(40, SCREEN_WIDTH - 40), random.randint(40, SCREEN_HEIGHT - 40))
+
+    def move(self):
+        pass 
+
+coins = pygame.sprite.Group()
+for _ in range(5):  
+    coins.add(Coin())
+
+COIN_SCORE = 0
+
+for entity in coins:
+    DISPLAYSURF.blit(entity.image, entity.rect)
+                        
+if pygame.sprite.spritecollideany(P1, coins):
+    COIN_SCORE += 1
+    for coin in coins:
+        if pygame.sprite.collide_rect(P1, coin):
+            coin.kill()                                                                                                                                                                                                                                                                                                                                                                                                                         
+            coins.add(Coin())  # Add a new coin at a random position
+
+coin_scores = font_small.render("Coins: " + str(COIN_SCORE), True, BLACK)
+DISPLAYSURF.blit(coin_scores, (SCREEN_WIDTH - 100, 10))
+
 enemies = pygame.sprite.Group()
 enemies.add(E1)
 all_sprites = pygame.sprite.Group()
