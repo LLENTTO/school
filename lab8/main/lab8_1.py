@@ -87,7 +87,7 @@ COIN_SCORE = 0
 
 for entity in coins:
     DISPLAYSURF.blit(entity.image, entity.rect)
-                        
+                    
 if pygame.sprite.spritecollideany(P1, coins):
     COIN_SCORE += 1
     for coin in coins:
