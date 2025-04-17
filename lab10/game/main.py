@@ -5,9 +5,9 @@ import sys
 from datetime import datetime
 
 conn_params = {
-    "dbname": "postgres",
-    "user": "postgres",
-    "password": "your_password",
+    "dbname": "llinn",
+    "user": "llinn",
+    "password": "1337",
     "host": "localhost",
     "port": "5432"
 }
@@ -125,14 +125,13 @@ class SnakeGame:
         self.level_settings()
 
     def level_settings(self):
-        # Define levels
         if self.level == 1:
             self.speed = 10
             self.walls = []
         elif self.level == 2:
             self.speed = 15
-            self.walls = [[200, 200, 200, 20], [600, 400, 200, 20]]  # [x, y, width, height]
-        else:  # Level 3
+            self.walls = [[200, 200, 200, 20], [600, 400, 200, 20]]
+        else:
             self.speed = 20
             self.walls = [[300, 150, 20, 300], [500, 150, 20, 300]]
 
@@ -165,7 +164,6 @@ class SnakeGame:
                             self.direction = 'RIGHT'
 
             if not self.paused:
-                # Move snake
                 if self.direction == 'UP':
                     self.snake_pos[1] -= 20
                 elif self.direction == 'DOWN':
@@ -179,7 +177,7 @@ class SnakeGame:
                 if self.snake_pos == self.food_pos:
                     self.score += 1
                     self.food_spawned = False
-                    if self.score % 5 == 0:  # Level up every 5 points
+                    if self.score % 5 == 0:
                         self.level += 1
                         self.level_settings()
                 else:
@@ -200,7 +198,7 @@ class SnakeGame:
                     if snake_rect.colliderect(wall_rect):
                         self.game_over = True
 
-                self.display.fill((0, 0, 0))  # Black background
+                self.display.fill((0, 0, 0))
                 for pos in self.snake_body:
                     pygame.draw.rect(self.display, (0, 255, 0), pygame.Rect(pos[0], pos[1], 20, 20))
                 pygame.draw.rect(self.display, (255, 0, 0), pygame.Rect(self.food_pos[0], self.food_pos[1], 20, 20))

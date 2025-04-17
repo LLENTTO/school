@@ -2,9 +2,9 @@ import psycopg2
 import csv
 
 conn_params = {
-    "dbname": "postgres",
-    "user": "postgres",
-    "password": "your_password",
+    "dbname": "dummy_db",
+    "user": "llinn",
+    "password": "1337",
     "host": "localhost",
     "port": "5432"
 }
@@ -166,7 +166,7 @@ def delete_data():
 def main():
     create_table()
     while True:
-        print("\nPhoneBook Menu:")
+        print("\nPhoneBook Menu: ")
         print("1. Insert from CSV")
         print("2. Insert from console")
         print("3. Update data")
