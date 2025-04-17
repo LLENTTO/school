@@ -7,7 +7,7 @@ from datetime import datetime
 conn_params = {
     "dbname": "llinn",
     "user": "llinn",
-    "password": "1337",
+    "password": "llinn",
     "host": "localhost",
     "port": "5432"
 }

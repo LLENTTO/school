@@ -1,17 +1,15 @@
 import psycopg2
 import csv
 
-# Database connection configuration
 conn_params = {
-    "dbname": "postgres",
-    "user": "postgres",
-    "password": "your_password",  # Replace with your PostgreSQL password
+    "dbname": "lab11",
+    "user": "lab11",
+    "password": "lab11",
     "host": "localhost",
     "port": "5432"
 }
 
 def connect():
-    """Connect to the PostgreSQL database."""
     try:
         conn = psycopg2.connect(**conn_params)
         return conn
@@ -47,7 +45,7 @@ def insert_from_csv(file_path):
             cur = conn.cursor()
             with open(file_path, 'r') as f:
                 reader = csv.reader(f)
-                next(reader)  # Skip header
+                next(reader)
                 for row in reader:
                     cur.execute(
                         "INSERT INTO phonebook (first_name, last_name, phone) VALUES (%s, %s, %s) ON CONFLICT (phone) DO NOTHING",
@@ -198,4 +196,5 @@ def main():
             print("Invalid choice.")
 
 if __name__ == "__main__":
+    print("ID: 24B030031")
     main()
